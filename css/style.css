@@ -1,0 +1,68 @@
+body {
+    width: 700px;
+    margin: 2em auto;
+}
+
+.grid {
+    width: 560px;
+    height: 560px;
+    border: 5px solid black;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.grid div {
+    width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+}
+
+.pac-dot {
+    background: green;
+    border: 7px solid white;
+}
+
+.wall {
+    background: blue;
+}
+
+.power-pellet {
+    background: green;
+    border-radius: 10px;
+}
+
+.blinky {
+    background: red;
+}
+
+.pinky {
+    background: pink;
+}
+
+.inky {
+    background: aqua;
+}
+
+.clyde {
+    background: blueviolet;
+}
+
+.pacman {
+    background: orange;
+    border-radius: 10px;
+    /* to preserve style of pacman when he pass through pac-dot because of border */
+    border: 0;
+}
+
+.scared-ghost {
+    background: aquamarine;
+}
+
+/* to preserve style of ghosts when they pass through pac-dot or power pellet when because of border */
+.blinky,
+.pinky,
+.inky,
+.clyde {
+    border: 0;
+    border-radius: 0;
+}
