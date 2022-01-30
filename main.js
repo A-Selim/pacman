@@ -125,6 +125,8 @@ function control(event) {
 
     pacDotEaten();
     powerPelletEaten();
+    checkForGameOver();
+    checkForWin();
 }
 
 document.addEventListener("keyup", control);
@@ -199,21 +201,34 @@ function ghostMovement(ghost) {
         if (ghost.isScared && squares[pacemanCurrentIndex].classList.contains("scared-ghost")) {
             squares[ghost.currentIndex].classList.remove(ghost.className, "ghost", "scared-ghost");
             ghost.currentIndex = ghost.startIndex;
-            calculateScore(100);
+            // add ghost className && class "ghost"
+            squares[ghost.currentIndex].classList.add(ghost.className, "ghost");
+            // add 30 points to score
+            addToScore(30);
         }
 
-        // game over when pacman collide with not scared ghost
-        if (!ghost.isScared && squares[pacemanCurrentIndex].classList.contains("ghost")) {
-            clearInterval(ghost.gInterval);
-            document.removeEventListener("keyup", control);
-            scoreTitle.textContent = `Game Over, Your Score: ${score}`;
-        }
-
-        // define win
-        if (score >= 1200) {
-            clearInterval(ghost.gInterval);
-            document.removeEventListener("keyup", control);
-            scoreTitle.textContent = `You Win, Your Score: ${score}`;
-        }
+        checkForGameOver();
+        checkForWin();
     }, ghost.speed);
+}
+
+// define how game is over
+function checkForGameOver() {
+    if (
+        squares[pacemanCurrentIndex].classList.contains("ghost") &&
+        !squares[pacemanCurrentIndex].classList.contains("scared-ghost")
+    ) {
+        ghosts.forEach((ghost) => clearInterval(ghost.interval));
+        document.removeEventListener("keyup", control);
+        scoreTitle.textContent = `You Lost, Your Score: ${score}`;
+    }
+}
+
+// define win
+function checkForWin() {
+    if (score >= 274) {
+        ghosts.forEach((ghost) => clearInterval(ghost.interval));
+        document.removeEventListener("keyup", control);
+        scoreTitle.textContent = `You Win, Your Score: ${score}`;
+    }
 }
