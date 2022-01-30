@@ -209,9 +209,11 @@ function ghostMovement(ghost) {
             ghost.scaredTime = false;
         }
 
-        // when pacman eat scared ghost
-        if (ghost.isScared && squares[pacemanCurrentIndex].classList.contains("scared-ghost")) {
+        // // when pacman eat scared ghost
+        if (ghost.isScared && squares[ghost.currentIndex].classList.contains("pacman")) {
+            // remove ghost from its current index
             squares[ghost.currentIndex].classList.remove(ghost.className, "ghost", "scared-ghost");
+            // reset current index of ghost to start index (initial value)
             ghost.currentIndex = ghost.startIndex;
             // add ghost className && class "ghost"
             squares[ghost.currentIndex].classList.add(ghost.className, "ghost");
