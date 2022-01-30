@@ -43,7 +43,7 @@ class Ghost {
         this.currentIndex = startIndex;
         this.scaredTime = false;
         this.isScared = false;
-        this.gInterval = null;
+        this.interval = null;
     }
 }
 
@@ -58,6 +58,7 @@ const ghosts = [
 let score = 0;
 let pacemanCurrentIndex = 490;
 
+// create game layout && pacman
 function createGameLayout() {
     // create game grid
     for (let i = 0; i < layout.length; i++) {
@@ -134,30 +135,36 @@ document.addEventListener("keyup", control);
 // when pacman eat pac dot
 function pacDotEaten() {
     if (squares[pacemanCurrentIndex].classList.contains("pac-dot")) {
+        // remove pac-dot from the grid
         squares[pacemanCurrentIndex].classList.remove("pac-dot");
-        calculateScore(1);
+        // add 1 point to score
+        addToScore(1);
     }
 }
 
 // when pacman eat power pellet
 function powerPelletEaten() {
     if (squares[pacemanCurrentIndex].classList.contains("power-pellet")) {
+        // remove power-pellet from the grid
         squares[pacemanCurrentIndex].classList.remove("power-pellet");
-        calculateScore(10);
+        // add 10 points to score
+        addToScore(10);
 
+        // make every ghost is scared
         ghosts.forEach((ghost) => (ghost.isScared = true));
 
+        // activate scaredtime to every ghost
         ghosts.forEach((ghost) => (ghost.scaredTime = true));
     }
 }
 
 // function to compute score && display it
-function calculateScore(num) {
+function addToScore(num) {
     score += num;
     scoreDisplay.textContent = score;
 }
 
-// for loop for iterate ghosts array and apply ghostControl function to every ghost
+// for loop for iterate ghosts array and apply ghostMovement function to every ghost
 ghosts.forEach((ghost) => ghostMovement(ghost));
 
 function ghostMovement(ghost) {
@@ -171,7 +178,7 @@ function ghostMovement(ghost) {
     let ghostDirection = directions[Math.floor(Math.random() * directions.length)];
 
     // an interval to keep ghosts moving
-    ghost.gInterval = setInterval(function () {
+    ghost.interval = setInterval(function () {
         squares[ghost.currentIndex].classList.remove(ghost.className, "ghost", "scared-ghost");
 
         if (
