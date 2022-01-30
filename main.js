@@ -49,10 +49,10 @@ class Ghost {
 
 // define ghosts array
 const ghosts = [
-    new Ghost("blinky", 348, 250),
-    new Ghost("pinky", 376, 500),
-    new Ghost("inky", 351, 350),
-    new Ghost("clyde", 379, 400),
+    new Ghost("blinky", 348, 210),
+    new Ghost("pinky", 376, 220),
+    new Ghost("inky", 351, 230),
+    new Ghost("clyde", 379, 240),
 ];
 
 let score = 0;
@@ -155,6 +155,9 @@ function powerPelletEaten() {
 
         // activate scaredtime to every ghost
         ghosts.forEach((ghost) => (ghost.scaredTime = true));
+
+        // decrease interval time for each ghost to make it faster every time pacman eat power-pellet
+        ghosts.forEach((ghost) => (ghost.speed -= 50));
     }
 }
 
@@ -172,7 +175,7 @@ function ghostMovement(ghost) {
     squares[ghost.currentIndex].classList.add(ghost.className, "ghost");
 
     // create array of direction for ghosts
-    const directions = [-1, 1, -width, width, -width, width, -width, width, 1, -1];
+    const directions = [-1, 1, -width, width];
 
     // get random value of directions array && asign it to ghostDirection
     let ghostDirection = directions[Math.floor(Math.random() * directions.length)];
@@ -197,10 +200,12 @@ function ghostMovement(ghost) {
         if (ghost.isScared) {
             // change style of ghosts to scared ghost
             squares[ghost.currentIndex].classList.add("scared-ghost");
-            // retrun ghost to normal state after 10 seconds
+
             if (ghost.scaredTime) {
-                setTimeout(() => (ghost.isScared = false), 5000);
+                // make ghost is not scared after 7 seconds
+                setTimeout(() => (ghost.isScared = false), 7000);
             }
+            // reset scared time to false (initial value) to make sure setTimout will not be accessed again when ghost isScared === true
             ghost.scaredTime = false;
         }
 
